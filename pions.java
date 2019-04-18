@@ -1,0 +1,2 @@
+create abstract class pions {
+}
