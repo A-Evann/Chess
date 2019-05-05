@@ -21,6 +21,10 @@ public class Joueur {
         // Automatically generated method. Please do not modify this code.
         return this.Couleur;
     }
+    public int getAversaire() {
+    	if (this.getCouleur() == 0) return 1;
+		else return 0;
+    }
     public void setCouleur(int value) {
         // Automatically generated method. Please do not modify this code.
         this.Couleur = value;

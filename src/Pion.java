@@ -93,5 +93,38 @@ public class Pion extends Piece {
     	
     	return les_cases;
     }
+    public ArrayList<Integer> porteeMvt() {
+    	ArrayList<Integer> porteeTot =  this.portee();
+    	if(this.getCouleur() == 0) {// blanc
+    		if(!this.isDeja_bouge()) {
+    			int colonne = this.getColonne();
+        		int ligne = this.getLigne() + 2;// il a pas bougé donc il peut aller en l+2 
+        		porteeTot.add((ligne/8)+colonne);
+        		ligne = this.getLigne() + 1; //mais il peut aussi aller en l+1
+        		porteeTot.add((ligne/8)+colonne);
+    		}
+    		else {
+    			int colonne = this.getColonne();
+        		int ligne = this.getLigne() + 1;// il a bougé donc il peut que aller en l+1 
+        		porteeTot.add((ligne/8)+colonne);
+    		}
+    	}
+    	else { //noir
+    		if(!this.isDeja_bouge()) {
+    			int colonne = this.getColonne();
+        		int ligne = this.getLigne() - 2;// il a pas bougé donc il peut aller en l-2 
+        		porteeTot.add((ligne/8)+colonne);
+        		ligne = this.getLigne() - 1; //mais il peut aussi aller en l-1
+        		porteeTot.add((ligne/8)+colonne);
+    		}
+    		else {
+    			int colonne = this.getColonne();
+        		int ligne = this.getLigne() - 1;// il a bougé donc il peut que aller en l-1 
+        		porteeTot.add((ligne/8)+colonne);
+    		}
+    		
+    	}
+    	return porteeTot;
+    }
 
 }

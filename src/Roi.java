@@ -84,5 +84,8 @@ public class Roi extends Piece {
     	}
     	return les_cases;
     }
+    public ArrayList<Integer> porteeMvt() {
+    	return this.portee();
+    }
 
 }

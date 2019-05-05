@@ -10,6 +10,7 @@ public abstract class Piece {
     public abstract boolean priseValide(int colonne, int ligne);
     
     public abstract ArrayList<Integer> portee();//methode retournant les cases ou la piece peut manger
+    public abstract ArrayList<Integer> porteeMvt();//methode retournant les cases ou la piece peut aller (manger ou aller cest surtour pour les pions)
     
     public boolean mouvementValide(int indice) {
     	return mouvementValide(indice%8, indice/8);

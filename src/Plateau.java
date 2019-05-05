@@ -10,8 +10,8 @@ public class Plateau {
         return this.plateau[indice_case] == null;
     }
     public Plateau(Plateau p) {
-    	this.indice_roiBlanc = p.getIndice_roiBlanc();
-    	this.indice_roiNoir = p.getIndice_roiNoir();
+    	this.indice_roiBlanc = p.getIndice_roi(0);
+    	this.indice_roiNoir = p.getIndice_roi(1);
     	this.plateau = new Piece[64];
     	for(int i = 0; i<64; i++) {
     		this.plateau[i] = p.getPlateau(i);
@@ -306,6 +306,7 @@ public class Plateau {
 
     }
 
+
     public ArrayList<Integer> porteeValide(int couleur){
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();
     	for(int i = 0; i<64; i++) {//on parcours tous le plateau
@@ -347,44 +348,22 @@ public class Plateau {
     public boolean roquePossible(Piece tour) {
     	boolean test = false;
     	int indiceT = (tour.getLigne()*8) + tour.getColonne();
-    	if (tour.getCouleur() == 0 && !this.plateau[indice_roiBlanc].isDeja_bouge() && (tour instanceof Tour && !tour.isDeja_bouge())) {//pour les blancs
-    		if(indice_roiBlanc > indiceT) {
+    	if (!this.plateau[this.getIndice_roi(tour.getCouleur())].isDeja_bouge() && (tour instanceof Tour && !tour.isDeja_bouge())) {
+    		if(this.getIndice_roi(tour.getCouleur()) > indiceT) {
     			int i = 1;
-    			while((i < Math.abs((indice_roiBlanc - indiceT))) && !this.isAPortee(indice_roiBlanc - i, tour.getCouleurAdv()) && this.contenuCase(indice_roiBlanc - i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
+    			while((i < Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT))) && !this.isAPortee(this.getIndice_roi(tour.getCouleur()) - i, tour.getCouleurAdv()) && this.contenuCase(this.getIndice_roi(tour.getCouleur()) - i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
     				i++;
     			}
-    			test = i==Math.abs((indice_roiBlanc - indiceT));//test = on a fait toute la boucle
+    			test = i==Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT));//test = on a fait toute la boucle
     		}
     		else {
     			int i = 1;
-    			while((i <= Math.abs((indice_roiBlanc - indiceT))) && !this.isAPortee(indice_roiBlanc + i, tour.getCouleurAdv()) && this.contenuCase(indice_roiBlanc + i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
+    			while((i <= Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT))) && !this.isAPortee(this.getIndice_roi(tour.getCouleur()) + i, tour.getCouleurAdv()) && this.contenuCase(this.getIndice_roi(tour.getCouleur()) + i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
     				i++;
     			}
-    			test = i==Math.abs((indice_roiBlanc - indiceT));//test = on a fait toute la boucle
-    					
+    			test = i==Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT));//test = on a fait toute la boucle    					
     		}
-    		
-    	}
-    	else if (tour.getCouleur() == 1 && !this.plateau[indice_roiNoir].isDeja_bouge() && (tour instanceof Tour && !tour.isDeja_bouge())) {//pour les noirs
-    		if(indice_roiNoir > indiceT) {//tour case 0
-    			int i = 1;
-    			while((i < Math.abs((indice_roiNoir - indiceT))) && !this.isAPortee(indice_roiNoir - i, tour.getCouleurAdv()) && this.contenuCase(indice_roiNoir - i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
-    				System.out.println(i);
-    				i++;
-    			}
-    			test = i==Math.abs((indice_roiNoir - indiceT));//test = on a fait toute la boucle
-    		}
-    		else {
-    			int i = 1;
-    			while((i <= Math.abs((indice_roiNoir - indiceT))) && !this.isAPortee(indice_roiNoir + i, tour.getCouleurAdv()) && this.contenuCase(indice_roiNoir + i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
-    				i++;
-    			}
-    			test = i==Math.abs((indice_roiNoir - indiceT));//test = on a fait toute la boucle
-    					
-    		}
-    		
-    	}
-    	   	
+    	}  	
     	return test;
     }
 
@@ -394,21 +373,7 @@ public class Plateau {
 		}
 		else return indice_roiNoir;
 	}
-	public int getIndice_roiBlanc() {
-		return indice_roiBlanc;
-	}
-	public int getIndice_roiNoir() {
-		return indice_roiNoir;
-	}
     
-	public int echec() {
-		if (this.isAPortee(indice_roiNoir, 0)) {
-			return 1;
-		}
-		else if (this.isAPortee(indice_roiBlanc, 1)) {
-			return 0;
-		}
-		return 2;
-	}
+
 	
 }

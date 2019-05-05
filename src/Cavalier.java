@@ -77,5 +77,8 @@ public class Cavalier extends Piece {
     	}
     	return les_cases;
     }
+    public ArrayList<Integer> porteeMvt() {
+    	return this.portee();
+    }
 
 }

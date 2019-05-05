@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Partie {
 	private int tour;
     private Plateau plateau;
@@ -96,35 +98,66 @@ public class Partie {
 		System.out.println("pb coupValide retourne false");//msg debug
 		return false;
 	}
+	public boolean echec(Joueur j) {
+		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire());
+	}
+    public boolean pat(Joueur j) {//si pat est vrai c'est qu'on est en situation de pat
+    	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
+    	boolean test;
+    	int i = 0;
+    	while (i < cases_mvt_roi.size() && !this.sansEchec(cases_mvt_roi.get(i), this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())), j) ) {
+    		/*
+    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		 */
+    		i++;
+    	}
+    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
+    	test = i==cases_mvt_roi.size();
+    	if(test) {//s'il y a un case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
+    		/*
+    		 * ici on va regarder mtn qu'aucun des mouvement possible pour le joueur
+    		 * pour ca on parcourt tout le plateau
+    		 * et on verifie tous les deplacement possible de chaque piece du joueur
+    		 */
+    		ArrayList<Integer> cases_piece = new ArrayList<Integer>();
+    		for(int k = 0; k<64 && test; k++) {//si on trouve une piece qui a un mvt possible ca sert a rien de rester dans la boucle
+    			if(this.getPlateau().getPlateau(k) != null && this.getPlateau().getPlateau(k).getCouleur() == j.getCouleur()) {//on a une case pas null et de la couleur du joueur
+    				cases_piece = this.getPlateau().getPlateau(k).porteeMvt();
+    				i = 0;
+    				while (i < cases_piece.size() && !this.sansEchec(cases_piece.get(i), this.getPlateau().getPlateau(k), j) ) {
+    		    		/*
+    		    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		    		 */
+    		    		i++;
+    		    	}
+    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible 
+    		    	test = i==cases_piece.size();
+    			}
+    		}
+    	}
+    	return test;
+    }
 	
+    public boolean echec_mat(Joueur j) {
+    	return this.pat(j) && this.echec(j);//si il est en echec et en plus il peut rien faire il est en echec et mat
+    	//(pat ne verifie pas la case du roi il verifie les cases où il peut aller !
+    }
 	public void jouerCoup(Joueur j) {
-		if (this.plateau.echec() == 0) {
-			System.out.println("Echec au roi Blanc ! Déplacer votre roi !");
-		}
-		else if(this.plateau.echec() == 1) {
-			System.out.println("Echec au roi Noir ! Déplacer votre roi !");
-		}
-		
+		if (this.echec(j)) {//s'il est en echec on lui dit
+			System.out.println("Echec a votre roi !");
+		}	
 		Piece p = saisiPieceValide(j);
-		int dest = j.SaisiCaseDestination();
-		
-		if (this.plateau.echec() == 0 || this.plateau.echec() == 1) {
-			while (!coupValide(dest, p, j) || !(p instanceof Roi)) {
-				System.out.println("Coup non valide !");
-				p = saisiPieceValide(j);
-				dest = j.SaisiCaseDestination();
-			}
-		}
-		
-		else {
-			while (!coupValide(dest, p, j)) {
-				System.out.println("Coup non valide !");
-				p = saisiPieceValide(j);
-				dest = j.SaisiCaseDestination();
-			}
+		int dest = j.SaisiCaseDestination();		
+		while (!sansEchec(dest, p, j)) { //tant qu'il fait pas un mouvement qui enleve l'échec
+			System.out.println("Coup non valide ! verifier que le roi n'est plus en echec si c'est le cas");
+			p = saisiPieceValide(j);
+			dest = j.SaisiCaseDestination();
 		}
 		this.plateau.bougerPiece(dest, p);//le coup est finalement valide, on bouge la piece
 		this.plateau.promotion(p);
+	}
+	public void tour_jeu() {
+		
 	}
 
 }
