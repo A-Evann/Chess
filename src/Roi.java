@@ -23,10 +23,10 @@ public class Roi extends Piece {
     	 OU on bouge de 1 en diagonal
     	 */
     	if ((colonne == this.getColonne() && dist_li == 1) || (ligne == this.getLigne() && dist_co == 1) || (diagonal && dist_co==1)) {
-    		System.out.println("Mouvement Valide"); //msg debug
+    		//System.out.println("Mouvement Valide"); //msg debug
     		return true;
     	}
-    	System.out.println("Mouvement non Valide"); //msg debug
+    	//System.out.println("Mouvement non Valide"); //msg debug
     	return false;
     }
     public boolean priseValide(int colonne, int ligne) {

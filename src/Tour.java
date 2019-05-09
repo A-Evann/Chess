@@ -17,10 +17,10 @@ public class Tour extends Piece {
     	 
     	 */
     	if (colonne == this.getColonne() || ligne == this.getLigne()) {
-    		System.out.println("Mouvement Valide"); //msg debug
+    		//System.out.println("Mouvement Valide"); //msg debug
     		return true;
     	}
-    	System.out.println("Mouvement non Valide"); //msg debug
+    	//System.out.println("Mouvement non Valide"); //msg debug
     	return false;
     }
     public boolean priseValide(int colonne, int ligne) {

@@ -21,14 +21,15 @@ public class Main {
 			p.getPlateau().afficherPlateau();
 		}*/
 		
-		Partie p1 = new Partie("1", "2", "echecetmat");
+		Partie p1 = new Partie("1", "2", "");
 		p1.getPlateau().afficherPlateau();
 		ArrayList<Integer> liste = p1.getPlateau().porteeValide(0);
 		for(int i=0; i<liste.size(); i++) {
 			System.out.println(liste.get(i));
 		}
-		
-		
 		p1.jouerCoup(p1.getJoueur(1));
+		p1.getPlateau().afficherPlateau();
+		p1.jouerCoup(p1.getJoueur(0));
+		p1.getPlateau().afficherPlateau();
 	}
 }

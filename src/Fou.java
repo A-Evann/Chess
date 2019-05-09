@@ -17,10 +17,10 @@ public class Fou extends Piece {
 		on bouge en diagonal
     	 */
     	if (diagonal) {
-    		System.out.println("Mouvement Valide"); //msg debug
+    		//System.out.println("Mouvement Valide"); //msg debug
     		return true;
     	}
-    	System.out.println("Mouvement non Valide"); //msg debug
+    	//System.out.println("Mouvement non Valide"); //msg debug
     	return false;
     }
     public boolean priseValide(int colonne, int ligne) {

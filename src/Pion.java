@@ -35,7 +35,7 @@ public class Pion extends Piece {
     			return true;
     		}
     	}
-    	System.out.println("pb mouvementValide()");//msg debug
+    	//System.out.println("pb mouvementValide()");//msg debug
     	return false;
     }
     

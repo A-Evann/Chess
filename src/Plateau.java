@@ -14,7 +14,25 @@ public class Plateau {
     	this.indice_roiNoir = p.getIndice_roi(1);
     	this.plateau = new Piece[64];
     	for(int i = 0; i<64; i++) {
-    		this.plateau[i] = p.getPlateau(i);
+    		if(p.getPlateau(i) instanceof Roi) {
+    			this.plateau[i] = new Roi(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		else if(p.getPlateau(i) instanceof Dame) {
+    			this.plateau[i] = new Dame(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		else if(p.getPlateau(i) instanceof Pion) {
+    			this.plateau[i] = new Pion(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		else if(p.getPlateau(i) instanceof Cavalier) {
+    			this.plateau[i] = new Cavalier(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		else if(p.getPlateau(i) instanceof Fou) {
+    			this.plateau[i] = new Fou(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		else if(p.getPlateau(i) instanceof Tour){
+    			this.plateau[i] = new Tour(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
+    		}
+    		
     	}
     }
     public Plateau(String situation) {
@@ -31,7 +49,7 @@ public class Plateau {
     		this.plateau[40] = new Fou(0,5,0);
     		this.plateau[42] = new Cavalier(2,5,0);
     		this.plateau[1]=new Dame(1,0,0);
-    		this.indice_roiNoir = 54;
+    		this.indice_roiNoir = 56;
     		this.plateau[2] = new Roi(0,3,0);
         	this.indice_roiBlanc = 2;
     	}
@@ -41,7 +59,7 @@ public class Plateau {
     		this.plateau[42] = new Cavalier(2,5,0);
     		this.plateau[1]=new Dame(1,0,0);
     		this.plateau[63] = new Tour(7,7,0);
-    		this.indice_roiNoir = 54;
+    		this.indice_roiNoir = 56;
     		this.plateau[2] = new Roi(0,3,0);
         	this.indice_roiBlanc = 2;
     		
@@ -151,10 +169,7 @@ public class Plateau {
     	p.setColonne(colonne);
     	p.setLigne(ligne);
     	if(p instanceof Roi ) {
-    		if(p.getCouleur() == 0) {
-    			this.indice_roiBlanc = indice_case_arriv;
-    		}
-    		else this.indice_roiNoir = indice_case_arriv;
+    		this.setIndice_roi(p.getCouleur(), indice_case_arriv);
     	}
     }
 
@@ -309,7 +324,6 @@ public class Plateau {
    		else {
    			System.out.println("PROBLEME: methode cheminValide() dans Plateau");//msg debug
    		}
-    	System.out.println("retour false: cheminValide()");//msg debug
     	return false;
     }
 
@@ -448,6 +462,12 @@ public class Plateau {
 		}
 		else return indice_roiNoir;
 	}
+    public void setIndice_roi(int couleur, int indice) {
+    	if (couleur == 0) {
+			this.indice_roiBlanc = indice;
+		}
+		else this.indice_roiNoir = indice;
+    }
     
 
 	

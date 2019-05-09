@@ -60,7 +60,11 @@ public class Partie {
 		boolean test = coupValide(indice, p, j);
 		if(test) {//si le coup est valide on regarde que ca crée pas d'echec
 			Plateau p_virtuel = new Plateau(this.getPlateau());
-			p_virtuel.setPlateau(indice, p);//on met la piece a l'indice
+			Piece p_double = new Pion(p.getColonne(), p.getLigne(), p.getCouleur());
+			if(p instanceof Roi) {
+				p_virtuel.setIndice_roi(p.getCouleur(), indice);
+			}
+			p_virtuel.setPlateau(indice, p_double);//on crée une nouvelle piece a l'indice (pour eviter les pb avec les indices des vieilles pieces pas a jour)
 			p_virtuel.setPlateau((p.getLigne()*8 + p.getColonne()), null);
 			test = !p_virtuel.isAPortee(p_virtuel.getIndice_roi(p.getCouleur()), p.getCouleurAdv());//on regarde si le roi de la couleur de la piece est pas a portée pour les adversaires
 		}
@@ -103,13 +107,14 @@ public class Partie {
 				return p.priseValide(indice);
 			}
 		}
-		System.out.println("pb coupValide retourne false");//msg debug
+		//System.out.println("pb coupValide retourne false");//msg debug
 		return false;
 	}
 	public boolean echec(Joueur j) {
 		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire());
 	}
     public boolean pat(Joueur j) {//si pat est vrai c'est qu'on est en situation de pat
+    	if(this.echec(j))return false;//s'il est en echec il est pas en pat
     	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
     	boolean test;
     	int i = 0;
@@ -120,6 +125,7 @@ public class Partie {
     		i++;
     	}
     	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
+    	
     	test = i==cases_mvt_roi.size();
     	if(test) {//s'il y a une case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
     		/*
@@ -143,12 +149,47 @@ public class Partie {
     			}
     		}
     	}
-    	return test && !this.echec(j) ;
+    	return test ;
     }
 	
     public boolean echec_mat(Joueur j) {
-    	return this.pat(j) && this.echec(j);//si il est en echec et en plus il peut rien faire il est en echec et mat
-    	//(pat ne verifie pas la case du roi il verifie les cases où il peut aller !
+    	if(!this.echec(j))return false;
+    	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
+    	boolean test;
+    	int i = 0;
+    	while (i < cases_mvt_roi.size() && !this.sansEchec(cases_mvt_roi.get(i), this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())), j) ) {
+    		/*
+    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		 */
+    		i++;
+    	}
+    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
+    	
+    	test = i==cases_mvt_roi.size();
+    	if(test) {//s'il y a une case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
+    		/*
+    		 * ici on va regarder mtn qu'aucun des mouvement possible pour le joueur
+    		 * pour ca on parcourt tout le plateau
+    		 * et on verifie tous les deplacement possible de chaque piece du joueur
+    		 */
+    		ArrayList<Integer> cases_piece = new ArrayList<Integer>();
+    		for(int k = 0; k<64 && test; k++) {//si on trouve une piece qui a un mvt possible ca sert a rien de rester dans la boucle
+    			if(this.getPlateau().getPlateau(k) != null && this.getPlateau().getPlateau(k).getCouleur() == j.getCouleur()) {//on a une case pas null et de la couleur du joueur
+    				cases_piece = this.getPlateau().getPlateau(k).porteeMvt();
+    				i = 0;
+    				while (i < cases_piece.size() && !this.sansEchec(cases_piece.get(i), this.getPlateau().getPlateau(k), j) ) {
+    		    		/*
+    		    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		    		 */
+    		    		i++;
+    		    	}
+    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible 
+    		    	test = i==cases_piece.size();
+    			}
+    		}
+    	}
+    	return test;
+
     }
 	public void jouerCoup(Joueur j) {
 		if (this.echec(j)) {//s'il est en echec on lui dit

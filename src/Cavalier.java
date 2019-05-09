@@ -19,10 +19,10 @@ public class Cavalier extends Piece {
     	 ligne 2 et colonne 1
     	 */
     	if((dist_co == 2 && dist_li == 1) || (dist_li == 2 && dist_co == 1) ) {
-    		System.out.println("Mouvement Valide"); //msg debug
+    		//System.out.println("Mouvement Valide"); //msg debug
     		return true;
     	}
-    	System.out.println("Mouvement non Valide"); //msg debug
+    	//System.out.println("Mouvement non Valide"); //msg debug
     	return false;
     }
     public boolean priseValide(int colonne, int ligne) {
