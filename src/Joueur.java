@@ -34,7 +34,6 @@ public class Joueur {
     	System.out.println(this.getPseudo() + " saisir la case de la pièce a selectionner (colonne puis ligne ex : a4, h6)");
     	String i = sc.nextLine();//l'indice de la case
     	while(i.length() != 2 || (i.charAt(0)-97<0 || i.charAt(0)-97>7) || (i.charAt(1)-49<0 || i.charAt(1)-49>7)) {//mauvaise saisi on recommence
-    		sc.nextLine();//ici on vide la ligne(cf un tuto open classroom)
     		System.out.println(this.getPseudo() + " saisir la case de la pièce \nSuivre le format indiqué (colonne puis ligne ex : a4, h6)");
     		i = sc.nextLine();
     	}
@@ -47,7 +46,6 @@ public class Joueur {
     	System.out.println(this.getPseudo() + " saisir la case de destination (colonne puis ligne ex : a4, h6)");
     	String i = sc.nextLine();
     	while(i.length() != 2 || (i.charAt(0)-97<0 || i.charAt(0)-97>7) || (i.charAt(1)-49<0 || i.charAt(1)-49>7)) {//mauvaise saisi on recommence
-    		sc.nextLine();//ici on vide la ligne(cf un tuto open classroom)
     		System.out.println(this.getPseudo() + " saisir la case de destination ! \nSuivre le format indiqué (colonne puis ligne ex : a4, h6)");
     		i = sc.nextLine();
     	}

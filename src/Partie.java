@@ -14,6 +14,13 @@ public class Partie {
         this.plateau = new Plateau();
         this.tour = 0;//le premier tour c'est le 0 pour correspondre avec %2 (le blanc = joueurs[0])
     }
+    public Partie(String pseudo1, String pseudo2, String e) {
+        this.joueurs = new Joueur[2];
+        this.joueurs[0] = new Joueur(pseudo1, 0);
+        this.joueurs[1] = new Joueur(pseudo2, 1);
+        this.plateau = new Plateau(e);
+        this.tour = 0;//le premier tour c'est le 0 pour correspondre avec %2 (le blanc = joueurs[0])
+    }
 
 	public int getTour() {
 		return tour;
@@ -48,6 +55,7 @@ public class Partie {
 		}
 		return p;
 	}
+
 	public boolean sansEchec(int indice, Piece p, Joueur j) {
 		boolean test = coupValide(indice, p, j);
 		if(test) {//si le coup est valide on regarde que ca crée pas d'echec
@@ -113,7 +121,7 @@ public class Partie {
     	}
     	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
     	test = i==cases_mvt_roi.size();
-    	if(test) {//s'il y a un case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
+    	if(test) {//s'il y a une case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
     		/*
     		 * ici on va regarder mtn qu'aucun des mouvement possible pour le joueur
     		 * pour ca on parcourt tout le plateau
@@ -135,7 +143,7 @@ public class Partie {
     			}
     		}
     	}
-    	return test;
+    	return test && !this.echec(j) ;
     }
 	
     public boolean echec_mat(Joueur j) {
@@ -146,6 +154,12 @@ public class Partie {
 		if (this.echec(j)) {//s'il est en echec on lui dit
 			System.out.println("Echec a votre roi !");
 		}	
+		if(this.pat(j)) {
+			System.out.println("pat");
+		}
+		if(this.echec_mat(j)) {
+			System.out.println("echec et mat");
+		}
 		Piece p = saisiPieceValide(j);
 		int dest = j.SaisiCaseDestination();		
 		while (!sansEchec(dest, p, j)) { //tant qu'il fait pas un mouvement qui enleve l'échec

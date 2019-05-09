@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
-		Partie p = new Partie("Remi", "Evann");
+		/*Partie p = new Partie("Remi", "Evann");
 		p.getPlateau().afficherPlateau();
 		//Piece p = new Cavalier(0,0,1);
 		//System.out.println(p instanceof Fou);
@@ -19,47 +19,16 @@ public class Main {
 		for(int i=0;i<0;i++) {
 			p.jouerCoup(p.getJoueur(1));
 			p.getPlateau().afficherPlateau();
-		}
-		
-		/*Partie p1 = new Partie("1","2");
-		p1.getPlateau().afficherPlateau();
-		ArrayList<Integer> portee = p1.getPlateau().porteeValide(0);
-		for(int i = 0; i<portee.size(); i++) {
-			System.out.println("case:"+portee.get(i)+"ligne:"+ ((portee.get(i)/8)+1) + "colonne:" + ((portee.get(i)%8)+1));
-		}
-		
-		//
-		System.out.println((p1.getPlateau().getPlateau(0)).isDeja_bouge());
-		//
-		
-		p1.jouerCoup(p1.getJoueur(0));
-		p1.getPlateau().afficherPlateau();
-		portee = p1.getPlateau().porteeValide(0);
-		for(int i = 0; i<portee.size(); i++) {
-			System.out.println("case:"+portee.get(i)+"ligne:"+ ((portee.get(i)/8)+1) + "colonne:" + ((portee.get(i)%8)+1));
-		}
-		
-		//
-		System.out.println((p1.getPlateau().getPlateau(0)).isDeja_bouge());
-		//
-		
-		p1.jouerCoup(p1.getJoueur(0));
-		p1.getPlateau().afficherPlateau();
-		portee = p1.getPlateau().porteeValide(0);
-		for(int i = 0; i<portee.size(); i++) {
-			System.out.println("case:"+portee.get(i)+"ligne:"+ ((portee.get(i)/8)+1) + "colonne:" + ((portee.get(i)%8)+1));
-		}
-		
-		//
-		System.out.println((p1.getPlateau().getPlateau(8)).isDeja_bouge());
-		//
-		
-		p1.jouerCoup(p1.getJoueur(0));
-		p1.getPlateau().afficherPlateau();
-		portee = p1.getPlateau().porteeValide(0);
-		for(int i = 0; i<portee.size(); i++) {
-			System.out.println("case:"+portee.get(i)+"ligne:"+ ((portee.get(i)/8)+1) + "colonne:" + ((portee.get(i)%8)+1));
 		}*/
 		
+		Partie p1 = new Partie("1", "2", "echecetmat");
+		p1.getPlateau().afficherPlateau();
+		ArrayList<Integer> liste = p1.getPlateau().porteeValide(0);
+		for(int i=0; i<liste.size(); i++) {
+			System.out.println(liste.get(i));
+		}
+		
+		
+		p1.jouerCoup(p1.getJoueur(1));
 	}
 }
