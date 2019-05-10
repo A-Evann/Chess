@@ -1,13 +1,14 @@
-import java.util.ArrayList;
+//import java.util.ArrayList;
+import java.io.*; 
 public class Main {
 	public static void main(String[] args) {
 		Affichage aff = new Affichage();
 		Partie p = new Partie("Remi", "Evann");
-		aff.afficher(p.getPlateau());
+		/*aff.afficher(p.getPlateau());
 		//Piece p = new Cavalier(0,0,1);
 		//System.out.println(p instanceof Fou);
-		int j = 1;
-		for(int i=0;i<100;i++) {
+		*/int j = 1;
+		for(int i=0;i<2;i++) {
 			if (j == 0) {
 				j = 1;
 			}
@@ -33,8 +34,22 @@ public class Main {
 		p1.jouerCoup(p1.getJoueur(0));
 		p1.getPlateau().afficherPlateau();*/
 		
+		String path=new File("").getAbsolutePath(); 
+		new File(path+"\\sauvegarde.txt"); 
 		
-		new Affichage().afficher(new Affichage().saisirPseudo());
+		try{
+		      PrintWriter sortie = new PrintWriter(new BufferedWriter(new FileWriter("sauvegarde.txt")));
+		      sortie.print("a2\na4\n");
+
+		      sortie.close();
+		    }
+
+		    catch(IOException e) {
+		      System.out.println(e);
+		    }
+
+		
+		p.Charger();
 		
 	}
 }

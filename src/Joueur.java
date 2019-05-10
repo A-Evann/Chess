@@ -30,7 +30,7 @@ public class Joueur {
     }
     public int SaisiCasePiece() {
     	Affichage aff = new Affichage();
-    	aff.afficher("saisir Case depart");
+    	aff.afficher(this.Pseudo + " : saisir Case depart");
     	int i = aff.saisirCase();
     	while (i/8 < 0 || i/8 > 7 || i%8 < 0 || i%8 > 7) {//mauvaise saisi on recommence
     		aff.afficher("mauvaise saisie");

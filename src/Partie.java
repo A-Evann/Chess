@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.io.*;
 
 public class Partie {
 	private int tour;
@@ -77,7 +78,7 @@ public class Partie {
 		if (this.plateau.caseValide(indice) && this.plateau.contenuCase(indice) != j.getCouleur()) { //il faut que la case soit libre ou adverse
 			
 			int ind_piece = p.getLigne() * 8 + p.getColonne(); // indice de la piece
-			if (p instanceof Roi && (indice == ind_piece + 2 || indice == ind_piece - 3)) {
+			if (p instanceof Roi && (indice == ind_piece + 2 || indice == ind_piece - 2)) {
 				 //si la piece est un roi et qu'ele est placée a cote de l'une des tours
 				
 				if (!((Roi)p).isDeja_bouge() && indice < ind_piece && this.plateau.getPlateau(p.getLigne() * 8) instanceof Tour) {
@@ -216,6 +217,62 @@ public class Partie {
 	}
 	public void tour_jeu() {
 		
+	}
+	
+	public void Charger() {
+		
+		/* Dans le cas ou on charge en cours de partie
+		 * on regenere un plateau pour faire les deplacment sauvardes correctement
+		 */
+		this.plateau = new Plateau();
+		
+		try {
+			//adaptation du code de charger en ihm
+			BufferedReader br = new BufferedReader(new FileReader("sauvegarde.txt"));
+		    String line;
+		    line = br.readLine();
+		    Affichage aff = new Affichage();
+		    aff.afficher(this.plateau);
+		    int j = 1;
+		    int i;
+		    
+		    //Simulation d'une partie avec les mouvements sauvegardés
+		    while (line != null) {
+		    	//Alternance des joueurs
+		    	if (j == 0) {
+					j = 1;
+				}
+				else if (j == 1) {
+					j = 0;
+				}
+				
+				/* 
+				 * copier-coller de jouerCoup() sans les vérifications de mouvements valide
+				 * car ils ont été vérifiés dans la partie sauvegardée 
+				 */
+		    	i = (8 * (line.charAt(1) - 49)) + (line.charAt(0) - 97);
+				Piece p = this.plateau.getPlateau(i);
+				
+				line = br.readLine();
+		    	i = (8 * (line.charAt(1) - 49)) + (line.charAt(0) - 97);
+				int dest = i;
+				
+				this.plateau.bougerPiece(dest, p);
+				this.plateau.promotion(p);
+					
+				aff.afficher(this.plateau);//msg debug
+				
+				line = br.readLine();
+			}
+		    
+		    br.close();
+		    
+		}
+		
+		catch(IOException e) {
+			System.out.println(e);
+		}
+
 	}
 
 }
