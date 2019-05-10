@@ -47,10 +47,11 @@ public class Partie {
 	}
 	
 	public Piece saisiPieceValide(Joueur j) {
+		Affichage aff = new Affichage();
 		Piece p = this.plateau.getPlateau(j.SaisiCasePiece());
 		while (p == null || p.getCouleur() != j.getCouleur()) {
-			if(p == null) System.out.println("case vide saisir une autre");
-			else System.out.println("Cette pièce ne vous appartient pas !\n Saisir une autre pièce !");
+			if(p == null) aff.afficher("case vide: saisir une autre");
+			else aff.afficher("Cette piece ne vous appartient pas!\nSaisir une autre piece");
 			p = this.plateau.getPlateau(j.SaisiCasePiece());
 		}
 		return p;
@@ -113,6 +114,7 @@ public class Partie {
 	public boolean echec(Joueur j) {
 		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire());
 	}
+	
     public boolean pat(Joueur j) {//si pat est vrai c'est qu'on est en situation de pat
     	if(this.echec(j))return false;//s'il est en echec il est pas en pat
     	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
@@ -192,19 +194,20 @@ public class Partie {
 
     }
 	public void jouerCoup(Joueur j) {
+		Affichage aff = new Affichage();
 		if (this.echec(j)) {//s'il est en echec on lui dit
-			System.out.println("Echec a votre roi !");
+			aff.afficher("Echec a votre roi !");
 		}	
 		if(this.pat(j)) {
-			System.out.println("pat");
+			aff.afficher("Pat");
 		}
 		if(this.echec_mat(j)) {
-			System.out.println("echec et mat");
+			aff.afficher("Echec et Mat");
 		}
 		Piece p = saisiPieceValide(j);
 		int dest = j.SaisiCaseDestination();		
 		while (!sansEchec(dest, p, j)) { //tant qu'il fait pas un mouvement qui enleve l'échec
-			System.out.println("Coup non valide ! verifier que le roi n'est plus en echec si c'est le cas");
+			aff.afficher("Coup non valide ! vérifier votre roi");
 			p = saisiPieceValide(j);
 			dest = j.SaisiCaseDestination();
 		}

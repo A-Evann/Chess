@@ -1,8 +1,9 @@
 import java.util.ArrayList;
 public class Main {
 	public static void main(String[] args) {
-		/*Partie p = new Partie("Remi", "Evann");
-		p.getPlateau().afficherPlateau();
+		Affichage aff = new Affichage();
+		Partie p = new Partie("Remi", "Evann");
+		aff.afficher(p.getPlateau());
 		//Piece p = new Cavalier(0,0,1);
 		//System.out.println(p instanceof Fou);
 		int j = 1;
@@ -14,14 +15,14 @@ public class Main {
 				j = 0;
 			}
 			p.jouerCoup(p.getJoueur(j));
-			p.getPlateau().afficherPlateau();
-		}
+			aff.afficher(p.getPlateau());
+		}/*
 		for(int i=0;i<0;i++) {
 			p.jouerCoup(p.getJoueur(1));
 			p.getPlateau().afficherPlateau();
-		}*/
+		}
 		
-		Partie p1 = new Partie("1", "2", "");
+		Partie p1 = new Partie("1", "2", "pat");
 		p1.getPlateau().afficherPlateau();
 		ArrayList<Integer> liste = p1.getPlateau().porteeValide(0);
 		for(int i=0; i<liste.size(); i++) {
@@ -30,6 +31,10 @@ public class Main {
 		p1.jouerCoup(p1.getJoueur(1));
 		p1.getPlateau().afficherPlateau();
 		p1.jouerCoup(p1.getJoueur(0));
-		p1.getPlateau().afficherPlateau();
+		p1.getPlateau().afficherPlateau();*/
+		
+		
+		new Affichage().afficher(new Affichage().saisirPseudo());
+		
 	}
 }

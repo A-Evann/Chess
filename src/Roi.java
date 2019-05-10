@@ -41,47 +41,16 @@ public class Roi extends Piece {
     public ArrayList<Integer> portee(){
     	//ici on reprend la methode de la reine en changeant les while par des if
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();
-    	int colonne = this.getColonne() + 1;
-    	int ligne = this.getLigne() + 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
+    	
+    	int[] colonne = {0,1,1,1,0,-1,-1,-1};
+    	int[] ligne = {-1,-1,0,1,1,1,0,-1};
+    	
+    	for (int i = 0; i < colonne.length; i++) {
+    		if((colonne[i] < 8 && ligne[i] < 8) && (colonne[i] >= 0 && ligne[i] >= 0)){
+        		les_cases.add((8 * ligne[i]) + colonne[i]);
+    		}
     	}
-    	colonne = this.getColonne() + 1;
-    	ligne = this.getLigne() - 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	colonne = this.getColonne() - 1;
-    	ligne = this.getLigne() + 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	colonne = this.getColonne() - 1;
-    	ligne = this.getLigne() - 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	colonne = this.getColonne() + 1;
-    	ligne = this.getLigne();
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	//c--
-    	colonne = this.getColonne() - 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	//mtn c'est l++
-    	colonne = this.getColonne();
-    	ligne = this.getLigne() + 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
-    	//l--
-    	ligne = this.getLigne() - 1;
-    	if((colonne < 8 && ligne < 8) && (colonne >= 0 && ligne >= 0)){
-    		les_cases.add((8 * ligne) + colonne);
-    	}
+    	
     	return les_cases;
     }
     public ArrayList<Integer> porteeMvt() {

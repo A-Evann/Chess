@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Plateau {
 	private int indice_roiBlanc;
@@ -173,40 +172,6 @@ public class Plateau {
     	}
     }
 
-    public void afficherPlateau() {
-    	String ligne_haut = "   *";
-    	for(int i=0; i<8; i++) {
-    		ligne_haut = ligne_haut + "  " + (char)(i+97) + "  *";
-    	}
-    	String ligne_etoile = "****";
-    	for(int i = 0; i<8; i++) {
-    		ligne_etoile = ligne_etoile + "******";
-    	}
-    	String ligne_rien = "   *";
-    	for(int i=0; i<8; i++) {
-    		ligne_rien = ligne_rien + "     *";
-    	}
-    	System.out.println(ligne_haut);
-    	System.out.println(ligne_etoile);
-        for(int i=0; i<8; i++) {
-            String ligne_contenu = " " + (i+1) + " *" ;
-            for(int y=0; y<8; y++) {
-            	String piece;
-            	if(this.plateau[8*i + y] == null) {
-            		piece = "-";
-            	}
-            	else {
-            		piece = this.plateau[8*i + y].toString();
-            	}
-            	ligne_contenu = ligne_contenu + "  " + piece + "  *";
-            }
-            System.out.println(ligne_rien);
-        	System.out.println(ligne_contenu);
-        	System.out.println(ligne_rien);
-        	System.out.println(ligne_etoile);
-        }
-    }
-
     public int contenuCase(int i) {
     	if(this.plateau[i] == null) {
     		return 2;//case vide
@@ -321,9 +286,9 @@ public class Plateau {
    				}
    		}
 
-   		else {
+   		/*else {
    			System.out.println("PROBLEME: methode cheminValide() dans Plateau");//msg debug
-   		}
+   		}*/
     	return false;
     }
 
@@ -336,63 +301,47 @@ public class Plateau {
     }
 
     public void promotion(Piece p) {
+    	Affichage aff = new Affichage();
     	
     	if (p.getCouleur() == 0 && p.getLigne() == 7) {
     	
-    		Scanner sc = new Scanner(System.in);
-    		
     		while(this.plateau[(p.getLigne() * 8) + p.getColonne()] instanceof Pion) {
-    			System.out.println("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
-    			String i = sc.nextLine(); //numero de la piece correspondante
+    			aff.afficher("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
+    			int i = aff.saisirNb();
     			
-    			if (i.length() == 1 && i.charAt(0) == 49) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
+    			switch (i) {
+    				case 1 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 2 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Cavalier(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 3 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Tour(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 4 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				default : aff.afficher("Veuillez saisir un numero valide !"); 
     			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 50) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Cavalier(p.getColonne(), p.getLigne(), p.getCouleur());
-    			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 51) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Tour(p.getColonne(), p.getLigne(), p.getCouleur());
-    			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 52) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur()); 
-    			}
-    		
-    			else System.out.println("Veuillez saisir un numero valide !");
     		}
     	}
     	
     	else if (p.getCouleur() == 1 && p.getLigne() == 0) {
-        	
-    		Scanner sc = new Scanner(System.in);
     		
     		while(this.plateau[(p.getLigne() * 8) + p.getColonne()] instanceof Pion) {
-    			System.out.println("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
-    			String i = sc.nextLine(); //numero de la piece correspondante
+    			aff.afficher("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
+    			int i = aff.saisirNb();
     			
-    			if (i.length() == 1 && i.charAt(0) == 49) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
+    			switch (i) {
+    				case 1 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 2 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Cavalier(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 3 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Tour(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				case 4 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur());
+    					break;
+    				default : aff.afficher("Veuillez saisir un numero valide !"); 
     			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 50) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Cavalier(p.getColonne(), p.getLigne(), p.getCouleur());
-    			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 51) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Tour(p.getColonne(), p.getLigne(), p.getCouleur());
-    			}
-    		
-    			else if (i.length() == 1 && i.charAt(0) == 52) {
-    				this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur()); 
-    			}
-    		
-    			else System.out.println("Veuillez saisir un numero valide !");
     		}
     	}
-
     }
 
 
