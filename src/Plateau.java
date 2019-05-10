@@ -4,6 +4,8 @@ public class Plateau {
 	private int indice_roiBlanc;
 	private int indice_roiNoir;
     private Piece[] plateau;
+    private String backup = "";
+    
     public boolean caseLibre(int colonne, int ligne) {
         int indice_case = (8 * ligne) + colonne;
         return this.plateau[indice_case] == null;
@@ -153,6 +155,11 @@ public class Plateau {
         this.plateau[60] = new Roi(4,7,1);
         this.indice_roiNoir = 60;
     }
+    
+    public String getBackup() {
+    	return this.backup;
+    }
+    
     public void bougerPiece(int indice, Piece p) {
     	this.bougerPiece(indice%8, indice/8, p);
     }
@@ -160,7 +167,16 @@ public class Plateau {
     public void bougerPiece(int colonne, int ligne, Piece p) {
     	p.setDeja_bouge(true);
     	
+    	char co1 = (char)(p.getColonne() + 97);
+    	char li1 = (char)(p.getLigne() + 49); 
+    	char[] chars1 = {co1,li1}; 
+    	String s1 = new String(chars1);
     	int indice_case_dep = (8 * p.getLigne()) + p.getColonne();
+    	
+    	char co2 = (char)(colonne + 97);
+    	char li2 = (char)(ligne + 49);
+    	char[] chars2 = {co2,li2};
+    	String s2 = new String(chars2);
     	int indice_case_arriv = (8 * ligne) + colonne;
     	this.plateau[indice_case_dep] = null;//la case ou etait la piece devient null
     	this.plateau[indice_case_arriv] = p;//la case ou elle bouge devient la piece
@@ -170,6 +186,7 @@ public class Plateau {
     	if(p instanceof Roi ) {
     		this.setIndice_roi(p.getCouleur(), indice_case_arriv);
     	}
+    	this.backup = this.backup + s1 + "\n" + s2 + "\n";
     }
 
     public int contenuCase(int i) {

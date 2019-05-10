@@ -234,7 +234,7 @@ public class Partie {
 		    Affichage aff = new Affichage();
 		    aff.afficher(this.plateau);
 		    int j = 1;
-		    int i;
+		    int i = 0;
 		    
 		    //Simulation d'une partie avec les mouvements sauvegardés
 		    while (line != null) {

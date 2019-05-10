@@ -2,6 +2,7 @@
 import java.io.*; 
 public class Main {
 	public static void main(String[] args) {
+		
 		Affichage aff = new Affichage();
 		Partie p = new Partie("Remi", "Evann");
 		/*aff.afficher(p.getPlateau());
@@ -34,7 +35,7 @@ public class Main {
 		p1.jouerCoup(p1.getJoueur(0));
 		p1.getPlateau().afficherPlateau();*/
 		
-		String path=new File("").getAbsolutePath(); 
+		/*String path=new File("").getAbsolutePath(); 
 		new File(path+"\\sauvegarde.txt"); 
 		
 		try{
@@ -49,7 +50,7 @@ public class Main {
 		    }
 
 		
-		p.charger();
+		p.charger();*/
 		
 		for(int i=0;i<2;i++) {
 			if (j == 0) {
@@ -62,7 +63,8 @@ public class Main {
 			aff.afficher(p.getPlateau());
 		}
 		
-		String s = "";
+		String s = p.getPlateau().getBackup();
+		System.out.println(s);
 		p.sauvegarder(s);
 		p.charger();
 		
