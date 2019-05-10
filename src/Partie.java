@@ -219,7 +219,7 @@ public class Partie {
 		
 	}
 	
-	public void Charger() {
+	public void charger() {
 		
 		/* Dans le cas ou on charge en cours de partie
 		 * on regenere un plateau pour faire les deplacment sauvardes correctement
@@ -273,6 +273,21 @@ public class Partie {
 			System.out.println(e);
 		}
 
+	}
+	
+	public void sauvegarder(String s) {
+		String path=new File("").getAbsolutePath(); 
+		new File(path+"\\sauvegarde.txt");
+		
+		try{
+		      PrintWriter sortie = new PrintWriter(new BufferedWriter(new FileWriter("sauvegarde.txt")));
+		      sortie.print(s);
+		      sortie.close();
+	    }
+
+	    catch(IOException e) {
+		      System.out.println(e);
+		}
 	}
 
 }

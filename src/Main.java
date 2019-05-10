@@ -39,7 +39,7 @@ public class Main {
 		
 		try{
 		      PrintWriter sortie = new PrintWriter(new BufferedWriter(new FileWriter("sauvegarde.txt")));
-		      sortie.print("a2\na4\n");
+		      sortie.print("a2\na3\n");
 
 		      sortie.close();
 		    }
@@ -49,7 +49,22 @@ public class Main {
 		    }
 
 		
-		p.Charger();
+		p.charger();
+		
+		for(int i=0;i<2;i++) {
+			if (j == 0) {
+				j = 1;
+			}
+			else if (j == 1) {
+				j = 0;
+			}
+			p.jouerCoup(p.getJoueur(j));
+			aff.afficher(p.getPlateau());
+		}
+		
+		String s = "";
+		p.sauvegarder(s);
+		p.charger();
 		
 	}
 }

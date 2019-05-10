@@ -43,15 +43,9 @@ public class Affichage {
         }
     }
     
-    public int saisirCase() {
+    public String saisirCase() {
     	Scanner sc = new Scanner(System.in);
-    	String i = sc.nextLine();//l'indice de la case
-    	if (i.length() > 2) {
-    		return -1;
-    	}
-    	int colonne = i.charAt(0)-97;
-    	int ligne = i.charAt(1)-49;
-    	return (8*ligne) + colonne;//la valeur de retour est l'indice de la case saisi
+    	return sc.nextLine();//l'indice de la case
     }
     
     public int saisirNb() {
