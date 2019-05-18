@@ -4,13 +4,14 @@ public class Plateau {
 	private int indice_roiBlanc;
 	private int indice_roiNoir;
     private Piece[] plateau;
-    private String backup = "";
+    private String backup;
     
     public boolean caseLibre(int colonne, int ligne) {
         int indice_case = (8 * ligne) + colonne;
         return this.plateau[indice_case] == null;
     }
     public Plateau(Plateau p) {
+    	this.backup = "";
     	this.indice_roiBlanc = p.getIndice_roi(0);
     	this.indice_roiNoir = p.getIndice_roi(1);
     	this.plateau = new Piece[64];
@@ -37,6 +38,7 @@ public class Plateau {
     	}
     }
     public Plateau(String situation) {
+    	this.backup = "";
 		this.plateau = new Piece[64];
     	if (situation == "echec") {
         	this.plateau[63] = new Roi(7,7,1);
@@ -112,6 +114,7 @@ public class Plateau {
     	
     }
     public Plateau() {
+    	this.backup = "";
         this.plateau = new Piece[64];//nouveau tableau de 64 cases
         //initialisation du plateau :
         //les pions blancs

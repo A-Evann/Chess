@@ -3,22 +3,11 @@ import java.io.*;
 public class Main {
 	public static void main(String[] args) {
 		
-		Affichage aff = new Affichage();
+		//Affichage aff = new Affichage();
 		Partie p = new Partie("Remi", "Evann");
-		/*aff.afficher(p.getPlateau());
-		//Piece p = new Cavalier(0,0,1);
-		//System.out.println(p instanceof Fou);
-		*/int j = 1;
-		for(int i=0;i<2;i++) {
-			if (j == 0) {
-				j = 1;
-			}
-			else if (j == 1) {
-				j = 0;
-			}
-			p.jouerCoup(p.getJoueur(j));
-			aff.afficher(p.getPlateau());
-		}/*
+		p.jouerParti();
+
+		/*
 		for(int i=0;i<0;i++) {
 			p.jouerCoup(p.getJoueur(1));
 			p.getPlateau().afficherPlateau();
@@ -52,7 +41,7 @@ public class Main {
 		
 		p.charger();*/
 		
-		for(int i=0;i<2;i++) {
+		/*for(int i=0;i<2;i++) {
 			if (j == 0) {
 				j = 1;
 			}
@@ -66,7 +55,7 @@ public class Main {
 		String s = p.getPlateau().getBackup();
 		System.out.println(s);
 		p.sauvegarder(s);
-		p.charger();
+		p.charger();*/
 		
 	}
 }

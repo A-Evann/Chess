@@ -215,14 +215,28 @@ public class Partie {
 		this.plateau.bougerPiece(dest, p);//le coup est finalement valide, on bouge la piece
 		this.plateau.promotion(p);
 	}
-	public void tour_jeu() {
-		
+	public void tour_jeu() {	
+		this.jouerCoup(this.getJoueur(this.getTour()%2));
+		new Affichage().afficher(this.getPlateau());
+	}
+	public void jouerParti() {
+		new Affichage().afficher(this.getPlateau());
+		while(!echec_mat(this.getJoueur(this.getTour()%2)) && !pat(this.getJoueur(this.getTour()%2))) {
+			tour_jeu();
+			this.setTour(this.getTour() + 1);//tour ++;
+		}
+		if(echec_mat(this.getJoueur(this.getTour()%2))) {
+			new Affichage().afficher("Echec et mat, " + this.getJoueur((this.getTour() + 1)%2).getPseudo() + " à gagné !");
+		}
+		else {
+			new Affichage().afficher("Egalité ! (pat)");
+		}
 	}
 	
 	public void charger() {
 		
 		/* Dans le cas ou on charge en cours de partie
-		 * on regenere un plateau pour faire les deplacment sauvardes correctement
+		 * on regenere un plateau pour faire les deplacment sauvgardes correctement
 		 */
 		this.plateau = new Plateau();
 		
