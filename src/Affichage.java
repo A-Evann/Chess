@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import javax.swing.*;
 
 public class Affichage {
 	
@@ -22,9 +23,8 @@ public class Affichage {
     	for(int i=0; i<8; i++) {
     		ligne_rien = ligne_rien + "     *";
     	}
-    	System.out.println(ligne_haut);
     	System.out.println(ligne_etoile);
-        for(int i=0; i<8; i++) {
+        for(int i=7; i>=0; i--) {
             String ligne_contenu = " " + (i+1) + " *" ;
             for(int y=0; y<8; y++) {
             	String piece;
@@ -41,6 +41,7 @@ public class Affichage {
         	System.out.println(ligne_rien);
         	System.out.println(ligne_etoile);
         }
+        System.out.println(ligne_haut);
     }
     
     public String saisirCase() {
@@ -54,11 +55,16 @@ public class Affichage {
     	sc.close();
     	return i;
     }
-    
+    public String choisirFichier() {
+    	String nom;
+    	JFileChooser chooser = new JFileChooser();
+        chooser.showOpenDialog(null);
+		nom = chooser.getSelectedFile().getAbsolutePath();
+    	return nom;
+    }
     public String saisirPseudo() {
     	Scanner sc = new Scanner(System.in);
     	String s = sc.nextLine();
-    	sc.close();
     	return s;
     }
     

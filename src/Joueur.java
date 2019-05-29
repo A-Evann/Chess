@@ -32,8 +32,11 @@ public class Joueur {
     
     public int SaisiCasePiece() {
     	Affichage aff = new Affichage();
-    	aff.afficher(this.Pseudo + " : saisir Case depart");
+    	aff.afficher(this.Pseudo + " : saisir Case depart (m : ouvrir menu)");
     	String s = aff.saisirCase();
+    	if(s.equals("m")) {
+    		return -1;//c'est pas une case donc on peut s'en servir pour indiquer que faut aller au menu
+    	}
     	while (s.length() != 2) {
     		aff.afficher("mauvaise saisie");
     		s = aff.saisirCase();
@@ -52,13 +55,15 @@ public class Joueur {
     
     public int SaisiCaseDestination() {
     	Affichage aff = new Affichage();
-    	aff.afficher(this.Pseudo + " : saisir Case destination");
+    	aff.afficher(this.Pseudo + " : saisir Case destination (m : ouvir menu)");
     	String s = aff.saisirCase();
+    	if(s.equals("m")) {
+    		return -1;//c'est pas une case donc on peut s'en servir pour indiquer que faut aller au menu
+    	}
     	while (s.length() != 2) {
     		aff.afficher("mauvaise saisie");
     		s = aff.saisirCase();
-    	}
-    	
+    	}  	
     	int colonne = s.charAt(0)-97;
     	int ligne = s.charAt(1)-49;
     	int i = (8*ligne) + colonne;//la valeur de retour est l'indice de la case saisi

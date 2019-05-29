@@ -168,11 +168,12 @@ public class Plateau {
     }
 
     public void bougerPiece(int colonne, int ligne, Piece p) {
-    	p.setDeja_bouge(true);
-    	
     	char co1 = (char)(p.getColonne() + 97);
     	char li1 = (char)(p.getLigne() + 49); 
+    	
     	char[] chars1 = {co1,li1}; 
+    	p.setDeja_bouge(true);
+    	
     	String s1 = new String(chars1);
     	int indice_case_dep = (8 * p.getLigne()) + p.getColonne();
     	
