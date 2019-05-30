@@ -249,7 +249,7 @@ public class Partie {
 		this.jouerCoup(this.getJoueur(this.getTour()%2));
 		new Affichage().afficher(this.getPlateau());
 	}
-	public void jouerParti() {
+	public void jouerPartie() {
 		this.menuDeb();
 	}
 	public void jouer() {
@@ -259,7 +259,7 @@ public class Partie {
 			this.setTour(this.getTour() + 1);//tour ++;
 		}
 		if(echec_mat(this.getJoueur(this.getTour()%2))) {
-			new Affichage().afficher("Echec et mat, " + this.getJoueur((this.getTour() + 1)%2).getPseudo() + " à gagné !");
+			new Affichage().afficher("Echec et mat, " + this.getJoueur((this.getTour() + 1)%2).getPseudo() + " a gagné !");
 		}
 		else {
 			new Affichage().afficher("Egalité ! (pat)");
@@ -362,6 +362,7 @@ public class Partie {
 		}
 		else{
 			aff.afficher("merci d'avoir jouer, à la prochaine !");
+			System.exit(0);
 		}
 	}
 	public void menuMil() {
@@ -397,6 +398,7 @@ public class Partie {
 		}
 		else{
 			aff.afficher("merci d'avoir jouer, à la prochaine !");
+			System.exit(0);
 		}
 	}
 
