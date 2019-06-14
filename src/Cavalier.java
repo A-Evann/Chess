@@ -30,9 +30,9 @@ public class Cavalier extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "C";
+    		return "\u265E";
     	}
-    	else return "c";
+    	else return "\u2658";
     }
     public ArrayList<Integer> portee() {
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();

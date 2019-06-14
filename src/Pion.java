@@ -60,9 +60,9 @@ public class Pion extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "P";
+    		return "\u265F";
     	}
-    	else return "p";
+    	else return "\u2659";
     }
     public ArrayList<Integer> portee(){
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();

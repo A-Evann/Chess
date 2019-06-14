@@ -2,7 +2,7 @@
 public class Main {
 	public static void main(String[] args) {
 		Affichage aff = new Affichage();
-		Partie p = new Partie("", "");
+		Partie p = new Partie();
 
 		
 		/*String path=new File("").getAbsolutePath(); 

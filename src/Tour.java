@@ -28,9 +28,9 @@ public class Tour extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "T";
+    		return "\u265C";
     	}
-    	else return "t";
+    	else return "\u2656";
     }
     public ArrayList<Integer> portee(){
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();

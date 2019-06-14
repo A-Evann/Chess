@@ -36,9 +36,9 @@ public class Dame extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "D";
+    		return "\u265B";
     	}
-    	else return "d";
+    	else return "\u2655";
     }
     public ArrayList<Integer> portee(){
     	//pour la dame on reprend la methode du fou et celle de la tour

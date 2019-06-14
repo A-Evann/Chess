@@ -34,9 +34,9 @@ public class Roi extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "R";
+    		return "\u265A";
     	}
-    	else return "r";
+    	else return "\u2654";
     }
     public ArrayList<Integer> portee(){
     	//ici on reprend la methode de la reine en changeant les while par des if

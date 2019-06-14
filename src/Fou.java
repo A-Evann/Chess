@@ -28,9 +28,9 @@ public class Fou extends Piece {
     }
     public String toString() {
     	if(this.getCouleur()==0) {
-    		return "F";
+    		return "\u265D";
     	}
-    	else return "f";
+    	else return "\u2657";
     }
     public ArrayList<Integer> portee(){
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();

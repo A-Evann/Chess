@@ -6,25 +6,15 @@ public class Partie {
     private Plateau plateau;
     private Joueur[] joueurs;
     private String backup;
-    public Partie() {
-    }
 
-    public Partie(String pseudo1, String pseudo2) {
+    public Partie() {
         this.joueurs = new Joueur[2];
-        this.joueurs[0] = new Joueur(pseudo1, 0);
-        this.joueurs[1] = new Joueur(pseudo2, 1);
+        this.joueurs[0] = new Joueur("", 0);
+        this.joueurs[1] = new Joueur("", 1);
         this.plateau = new Plateau();
         this.tour = 0;//le premier tour c'est le 0 pour correspondre avec %2 (le blanc = joueurs[0])
-        this.backup = pseudo1 + "\n" + pseudo2 + "\n" + tour + "\n";//on ajoute les pseudos et tour a la backup pour sauvegarder unepartie et non pas un plateau
+        this.backup = "" + "\n" + "" + "\n" + tour + "\n";//on ajoute les pseudos et tour a la backup pour sauvegarder unepartie et non pas un plateau
         this.menuDeb();
-    }
-    public Partie(String pseudo1, String pseudo2, String e) {
-        this.joueurs = new Joueur[2];
-        this.joueurs[0] = new Joueur(pseudo1, 0);
-        this.joueurs[1] = new Joueur(pseudo2, 1);
-        this.plateau = new Plateau(e);
-        this.tour = 0;//le premier tour c'est le 0 pour correspondre avec %2 (le blanc = joueurs[0])
-        this.backup = pseudo1 + "\n" + pseudo2 + "\n" + tour + "\n";//on ajoute les pseudos et tour a la backup pour sauvegarder unepartie et non pas un plateau
     }
 
 	public int getTour() {
