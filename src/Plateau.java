@@ -5,7 +5,7 @@ public class Plateau {
 	private int indice_roiNoir;
     private Piece[] plateau;
     private String backup;
-
+    
     public boolean caseLibre(int colonne, int ligne) {
         int indice_case = (8 * ligne) + colonne;
         return this.plateau[indice_case] == null;
@@ -34,10 +34,85 @@ public class Plateau {
     		else if(p.getPlateau(i) instanceof Tour){
     			this.plateau[i] = new Tour(p.getPlateau(i).getColonne(), p.getPlateau(i).getLigne(), p.getPlateau(i).getCouleur());
     		}
-
+    		
     	}
     }
+    public Plateau(String situation) {
+    	this.backup = "";
+		this.plateau = new Piece[64];
+    	if (situation == "echec") {
+        	this.plateau[63] = new Roi(7,7,1);
+        	this.plateau[0]= new Dame(0,0,0);
+        	this.indice_roiNoir = 63;
+        	this.plateau[2] = new Roi(0,3,0);
+        	this.indice_roiBlanc = 2;
+    	}
+    	else if(situation == "pat") {
+    		this.plateau[56] = new Roi(0,7,1);
+    		this.plateau[40] = new Fou(0,5,0);
+    		this.plateau[42] = new Cavalier(2,5,0);
+    		this.plateau[1]=new Dame(1,0,0);
+    		this.indice_roiNoir = 56;
+    		this.plateau[2] = new Roi(0,3,0);
+        	this.indice_roiBlanc = 2;
+    	}
+    	else if(situation == "echecetmat") {
+    		this.plateau[56] = new Roi(0,7,1);
+    		this.plateau[40] = new Fou(0,5,0);
+    		this.plateau[42] = new Cavalier(2,5,0);
+    		this.plateau[1]=new Dame(1,0,0);
+    		this.plateau[63] = new Tour(7,7,0);
+    		this.indice_roiNoir = 56;
+    		this.plateau[2] = new Roi(0,3,0);
+        	this.indice_roiBlanc = 2;
+    		
+    	}
+    	else {
+    		this.plateau = new Piece[64];//nouveau tableau de 64 cases
+            //initialisation du plateau :
+            //les pions blancs
+            for(int i = 8; i < 16; i++) {
+                int ligne = i/8;
+                int colonne = i%8;
+                this.plateau[i] = new Pion(colonne, ligne, 0);
+            }
+            //les pions noirs
+            for(int i = 48; i < 56; i++) {
+                int ligne = i/8;
+                int colonne = i%8;
+                this.plateau[i] = new Pion(colonne, ligne, 1);
+            }
 
+            //tours
+            this.plateau[0] = new Tour(0,0,0);
+            this.plateau[7] = new Tour(7,0,0);
+            this.plateau[56] = new Tour(0,7,1);
+            this.plateau[63] = new Tour(7,7,1);
+
+            //cavaliers
+            this.plateau[1] = new Cavalier(1,0,0);
+            this.plateau[6] = new Cavalier(6,0,0);
+            this.plateau[57] = new Cavalier(1,7,1);
+            this.plateau[62] = new Cavalier(6,7,1);
+
+            //fous
+            this.plateau[2] = new Fou(2,0,0);
+            this.plateau[5] = new Fou(5,0,0);
+            this.plateau[58] = new Fou(2,7,1);
+            this.plateau[61] = new Fou(5,7,1);
+
+            //dames
+            this.plateau[3] = new Dame(3,0,0);
+            this.plateau[59] = new Dame(3,7,1);
+
+            //rois
+            this.plateau[4] = new Roi(4,0,0);
+            this.indice_roiBlanc = 4;
+            this.plateau[60] = new Roi(4,7,1);
+            this.indice_roiNoir = 60;
+    	}
+    	
+    }
     public Plateau() {
     	this.backup = "";
         this.plateau = new Piece[64];//nouveau tableau de 64 cases
@@ -83,25 +158,25 @@ public class Plateau {
         this.plateau[60] = new Roi(4,7,1);
         this.indice_roiNoir = 60;
     }
-
+    
     public String getBackup() {
     	return this.backup;
     }
-
+    
     public void bougerPiece(int indice, Piece p) {
     	this.bougerPiece(indice%8, indice/8, p);
     }
 
     public void bougerPiece(int colonne, int ligne, Piece p) {
     	char co1 = (char)(p.getColonne() + 97);
-    	char li1 = (char)(p.getLigne() + 49);
-
-    	char[] chars1 = {co1,li1};
+    	char li1 = (char)(p.getLigne() + 49); 
+    	
+    	char[] chars1 = {co1,li1}; 
     	p.setDeja_bouge(true);
-
+    	
     	String s1 = new String(chars1);
     	int indice_case_dep = (8 * p.getLigne()) + p.getColonne();
-
+    	
     	char co2 = (char)(colonne + 97);
     	char li2 = (char)(ligne + 49);
     	char[] chars2 = {co2,li2};
@@ -109,7 +184,7 @@ public class Plateau {
     	int indice_case_arriv = (8 * ligne) + colonne;
     	this.plateau[indice_case_dep] = null;//la case ou etait la piece devient null
     	this.plateau[indice_case_arriv] = p;//la case ou elle bouge devient la piece
-    	//on met a jour les coordonneees de la piece
+    	//on met a jour les coordonnéees de la piece
     	p.setColonne(colonne);
     	p.setLigne(ligne);
     	if(p instanceof Roi ) {
@@ -139,7 +214,7 @@ public class Plateau {
     public boolean cheminValide(int indice_arr, Piece p) {
     	return cheminValide(p.getColonne(), p.getLigne(), indice_arr%8, indice_arr/8);
     }
-
+ 
     public boolean cheminValide(int dep_co, int dep_li, int arr_co, int arr_li) {
 
       /*
@@ -166,7 +241,7 @@ public class Plateau {
     				cpt_co--;
     			}
     		}
-    		if (cpt_co == arr_co || Math.abs(dist_co) == 1) {//si verification de toutes les cases ou chemin a une distance de 1 case
+    		if (cpt_co == arr_co || Math.abs(dist_co) == 1) {//si vérification de toutes les cases ou chemin a une distance de 1 case
     			return true;
     		}
    		}
@@ -185,7 +260,7 @@ public class Plateau {
     				cpt_li--;
     			}
     		}
-   			if (cpt_li == arr_li || Math.abs(dist_li) == 1) { //si verification de toutes les cases ou chemin a une distance de 1 case
+   			if (cpt_li == arr_li || Math.abs(dist_li) == 1) { //si vérification de toutes les cases ou chemin a une distance de 1 case
    				return true;
    			}
    		}
@@ -227,7 +302,7 @@ public class Plateau {
    			}
 
 
-   			if ((cpt_co == arr_co && cpt_li == arr_li) || (Math.abs(dist_co) == 1 && Math.abs(dist_li) == 1)) {//si verification de toutes les cases ou chemin a une distance de 1 case
+   			if ((cpt_co == arr_co && cpt_li == arr_li) || (Math.abs(dist_co) == 1 && Math.abs(dist_li) == 1)) {//si vérification de toutes les cases ou chemin a une distance de 1 case
    				return true;
    				}
    		}
@@ -248,13 +323,13 @@ public class Plateau {
 
     public void promotion(Piece p) {
     	Affichage aff = new Affichage();
-
+    	
     	if (p.getCouleur() == 0 && p.getLigne() == 7) {
-
+    	
     		while(this.plateau[(p.getLigne() * 8) + p.getColonne()] instanceof Pion) {
-    			aff.afficher("Promotion: En quelle piece voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
+    			aff.afficher("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
     			int i = aff.saisirNb();
-
+    			
     			switch (i) {
     				case 1 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
     					break;
@@ -264,17 +339,17 @@ public class Plateau {
     					break;
     				case 4 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur());
     					break;
-    				default : aff.afficher("Veuillez saisir un numero valide !");
+    				default : aff.afficher("Veuillez saisir un numero valide !"); 
     			}
     		}
     	}
-
+    	
     	else if (p.getCouleur() == 1 && p.getLigne() == 0) {
-
+    		
     		while(this.plateau[(p.getLigne() * 8) + p.getColonne()] instanceof Pion) {
-    			aff.afficher("Promotion: En quelle piece voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
+    			aff.afficher("Promotion: En quelle pièce voulez-vous promuvoir votre pion ?\n1- En Dame\n2- En Cavalier\n3- En Tour\n4- En Fou");
     			int i = aff.saisirNb();
-
+    			
     			switch (i) {
     				case 1 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Dame(p.getColonne(), p.getLigne(), p.getCouleur());
     					break;
@@ -284,7 +359,7 @@ public class Plateau {
     					break;
     				case 4 : this.plateau[(p.getLigne() * 8) + p.getColonne()] = new Fou(p.getColonne(), p.getLigne(), p.getCouleur());
     					break;
-    				default : aff.afficher("Veuillez saisir un numero valide !");
+    				default : aff.afficher("Veuillez saisir un numero valide !"); 
     			}
     		}
     	}
@@ -295,7 +370,7 @@ public class Plateau {
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();
     	for(int i = 0; i<64; i++) {//on parcours tous le plateau
     		if (this.getPlateau(i) != null && this.getPlateau(i).getCouleur() == couleur) {//si la piece est de la couleur en parametre
-    			ArrayList<Integer> case_piece = this.getPlateau(i).portee();//on prends toutes les cases de la portee de la piece
+    			ArrayList<Integer> case_piece = this.getPlateau(i).portee();//on prends toutes les cases de la portée de la piece
     			int ind = 0;//indice pour parcourir les cases de la piece qu'on traite
     			while(ind < case_piece.size()) {
     				//on commence par verfier que la case est pas deja dans le tableau
@@ -308,7 +383,7 @@ public class Plateau {
     					j++;
     				}
     				if(!deja_la && ((this.getPlateau(i) instanceof Cavalier || this.cheminValide(case_piece.get(ind), this.getPlateau(i))) && this.contenuCase(case_piece.get(ind)) != couleur)) {
-    					//le chemin est valide et la case est pas de la couleur parametre
+    					//le chemin est valide et la case est pas de la couleur paramétré
     						les_cases.add(case_piece.get(ind));//on ajoute la cases dans le tableau si elle y est pas deja
     				}
     				ind++;
@@ -345,9 +420,9 @@ public class Plateau {
     			while((i <= Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT))) && !this.isAPortee(this.getIndice_roi(tour.getCouleur()) + i, tour.getCouleurAdv()) && this.contenuCase(this.getIndice_roi(tour.getCouleur()) + i) == 2) {//on fait une boucle qui verif que les cases entre roi et tour sont vides et pas a portee
     				i++;
     			}
-    			test = i==Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT));//test = on a fait toute la boucle
+    			test = i==Math.abs((this.getIndice_roi(tour.getCouleur()) - indiceT));//test = on a fait toute la boucle    					
     		}
-    	}
+    	}  	
     	return test;
     }
 
@@ -363,7 +438,7 @@ public class Plateau {
 		}
 		else this.indice_roiNoir = indice;
     }
+    
 
-
-
+	
 }

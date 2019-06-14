@@ -2,14 +2,14 @@ import java.util.Scanner;
 import javax.swing.*;
 
 public class Affichage {
-
-
+	
+	
 	public Affichage() {}
-
+	
 	public void afficher(String message) {
 		System.out.println(message);
 	}
-
+	
     public void afficher(Plateau plateau) {
     	String ligne_haut = "   *";
     	for(int i=0; i<8; i++) {
@@ -43,12 +43,12 @@ public class Affichage {
         }
         System.out.println(ligne_haut);
     }
-
+    
     public String saisirCase() {
     	Scanner sc = new Scanner(System.in);
     	return sc.nextLine();//l'indice de la case
     }
-
+    
     public int saisirNb() {
     	Scanner sc = new Scanner(System.in);
     	int i = sc.nextInt();
@@ -66,5 +66,5 @@ public class Affichage {
     	String s = sc.nextLine();
     	return s;
     }
-
+    
 }

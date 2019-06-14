@@ -1,29 +1,29 @@
 import java.util.ArrayList;
 
 public class Dame extends Piece {
-
+	
     public Dame() {
         super();
     }
-
+    
     public Dame(int colonne, int ligne, int couleur) {
         super(colonne, ligne, couleur);
     }
-
+    
     public boolean mouvementValide(int colonne, int ligne) {
-
+    	
     	int dist_co = this.getColonne() - colonne; // distance en colonne
     	int dist_li = this.getLigne() - ligne;	  // distance en ligne
     	dist_co = Math.abs(dist_co);  //valeur absolue
     	dist_li = Math.abs(dist_li);
-    	// comparaison: si distance ligne == distance colonne: mouvement en diagonal: autorise
-
+    	// comparaison: si distance ligne == distance colonne: mouvement en diagonal: autorisé
+    	
     	/*
     	 on bouge pas de colonne
     	 OU on bouge pas de ligne
     	 OU on fait une diagonale
     	 */
-
+    	
     	if (colonne == this.getColonne() || ligne == this.getLigne() || dist_co == dist_li) {
     		//System.out.println("Mouvement Valide"); //msg debug
     		return true;
