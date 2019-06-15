@@ -32,15 +32,15 @@ public class Partie {
 	public void setPlateau(Plateau plateau) {
 		this.plateau = plateau;
 	}
-	
+
 	public void setJoueur(int i, Joueur j) {
 		this.joueurs[i]=j;
 	}
-	
+
 	public Joueur getJoueur(int i) {
 		return this.joueurs[i];
 	}
-	
+
 	public Piece saisiPieceValide(Joueur j) {
 		Affichage aff = new Affichage();
 		int saisi = j.SaisiCasePiece();
@@ -55,49 +55,49 @@ public class Partie {
 			if(saisi == -1) {
 				return null;
 			}
-			p = this.plateau.getPlateau(saisi);			
+			p = this.plateau.getPlateau(saisi);
 		}
 		return p;
 	}
 
 	public boolean sansEchec(int indice, Piece p, Joueur j) {
 		boolean test = coupValide(indice, p, j);
-		if(test) {//si le coup est valide on regarde que ca crée pas d'echec
+		if(test) {//si le coup est valide on regarde que ca cree pas d'echec
 			Plateau p_virtuel = new Plateau(this.getPlateau());
 			Piece p_double = new Pion(p.getColonne(), p.getLigne(), p.getCouleur());
 			if(p instanceof Roi) {
 				p_virtuel.setIndice_roi(p.getCouleur(), indice);
 			}
-			p_virtuel.setPlateau(indice, p_double);//on crée une nouvelle piece a l'indice (pour eviter les pb avec les indices des vieilles pieces pas a jour)
+			p_virtuel.setPlateau(indice, p_double);//on cree une nouvelle piece a l'indice (pour eviter les pb avec les indices des vieilles pieces pas a jour)
 			p_virtuel.setPlateau((p.getLigne()*8 + p.getColonne()), null);
-			test = !p_virtuel.isAPortee(p_virtuel.getIndice_roi(p.getCouleur()), p.getCouleurAdv());//on regarde si le roi de la couleur de la piece est pas a portée pour les adversaires
+			test = !p_virtuel.isAPortee(p_virtuel.getIndice_roi(p.getCouleur()), p.getCouleurAdv());//on regarde si le roi de la couleur de la piece est pas a portee pour les adversaires
 		}
 		return test;
 	}
-	
+
 	public boolean coupValide(int indice, Piece p, Joueur j) {
 
 		if (this.plateau.caseValide(indice) && this.plateau.contenuCase(indice) != j.getCouleur()) { //il faut que la case soit libre ou adverse
-			
+
 			int ind_piece = p.getLigne() * 8 + p.getColonne(); // indice de la piece
 			if (p instanceof Roi && (indice == ind_piece + 2 || indice == ind_piece - 2)) {
-				 //si la piece est un roi et qu'ele est placée a cote de l'une des tours
-				
+				 //si la piece est un roi et qu'ele est placee a cote de l'une des tours
+
 				if (!((Roi)p).isDeja_bouge() && indice < ind_piece && this.plateau.getPlateau(p.getLigne() * 8) instanceof Tour) {
-					 //si le roi est placé a côté de la tour de gauche
-					
+					 //si le roi est place a cete de la tour de gauche
+
 					Tour tour = (Tour)this.plateau.getPlateau(p.getLigne() * 8);
-					if (!tour.isDeja_bouge() && this.plateau.roquePossible(tour)) { //vérification si le roque est possible
+					if (!tour.isDeja_bouge() && this.plateau.roquePossible(tour)) { //verification si le roque est possible
 						this.plateau.bougerPiece(indice + 1, tour); //on bouge la tour puisque le roi bougera en retournant true
 						return true;
 					}
 				}
-				
+
 				else if (this.plateau.getPlateau(p.getLigne() * 8 + 7) instanceof Tour) {
-					//sinon le roi est placé a côté de la tour de droite
-					
+					//sinon le roi est place a cete de la tour de droite
+
 					Tour tour = (Tour)this.plateau.getPlateau(p.getLigne() * 8 + 7);
-					if (this.plateau.roquePossible(tour)) { //vérification si le roque est possible
+					if (this.plateau.roquePossible(tour)) { //verification si le roque est possible
 						this.plateau.bougerPiece(indice - 1, tour); //on bouge la tour puisque le roi bougera en retournant true
 						return true;
 					}
@@ -117,7 +117,7 @@ public class Partie {
 	public boolean echec(Joueur j) {
 		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire());
 	}
-	
+
     public boolean pat(Joueur j) {//si pat est vrai c'est qu'on est en situation de pat
     	if(this.echec(j))return false;//s'il est en echec il est pas en pat
     	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
@@ -125,12 +125,12 @@ public class Partie {
     	int i = 0;
     	while (i < cases_mvt_roi.size() && !this.sansEchec(cases_mvt_roi.get(i), this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())), j) ) {
     		/*
-    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
     		 */
     		i++;
     	}
-    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
-    	
+    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible
+
     	test = i==cases_mvt_roi.size();
     	if(test) {//s'il y a une case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
     		/*
@@ -145,18 +145,18 @@ public class Partie {
     				i = 0;
     				while (i < cases_piece.size() && !this.sansEchec(cases_piece.get(i), this.getPlateau().getPlateau(k), j) ) {
     		    		/*
-    		    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
     		    		 */
     		    		i++;
     		    	}
-    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible 
+    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible
     		    	test = i==cases_piece.size();
     			}
     		}
     	}
     	return test ;
     }
-	
+
     public boolean echec_mat(Joueur j) {
     	if(!this.echec(j))return false;
     	ArrayList<Integer> cases_mvt_roi = this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())).porteeMvt();//ici on fait une liste des cases de mvt du roi
@@ -164,12 +164,12 @@ public class Partie {
     	int i = 0;
     	while (i < cases_mvt_roi.size() && !this.sansEchec(cases_mvt_roi.get(i), this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())), j) ) {
     		/*
-    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
     		 */
     		i++;
     	}
-    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible 
-    	
+    	//si on a fait toute la liste ca veut dire qu'aucune case pour le roi n'est possible
+
     	test = i==cases_mvt_roi.size();
     	if(test) {//s'il y a une case possible pour le mouvement du roi ca ne sert a rien de faire ce qui suit
     		/*
@@ -184,11 +184,11 @@ public class Partie {
     				i = 0;
     				while (i < cases_piece.size() && !this.sansEchec(cases_piece.get(i), this.getPlateau().getPlateau(k), j) ) {
     		    		/*
-    		    		 * on fait des tour de boucle tant que on a pas depassé la taille de la liste et que un coup ne donne pas d'indice où on bouge sans echec
+    		    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
     		    		 */
     		    		i++;
     		    	}
-    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible 
+    		    	//si on a fait toute la liste ca veut dire qu'aucune case n'est possible
     		    	test = i==cases_piece.size();
     			}
     		}
@@ -200,7 +200,7 @@ public class Partie {
 		Affichage aff = new Affichage();
 		if (this.echec(j)) {//s'il est en echec on lui dit
 			aff.afficher("Echec a votre roi !");
-		}	
+		}
 		if(this.pat(j)) {
 			aff.afficher("Pat");
 		}
@@ -212,13 +212,13 @@ public class Partie {
 			this.menuMil();
 		}
 		else {
-			int dest = j.SaisiCaseDestination();	
+			int dest = j.SaisiCaseDestination();
 			if(dest == -1) {//si la destination est -1 il a saisi m
 				this.menuMil();
 			}
 			else {
-				while (!sansEchec(dest, p, j)) { //tant qu'il fait pas un mouvement qui enleve l'échec
-					aff.afficher("Coup non valide ! vérifier votre roi");
+				while (!sansEchec(dest, p, j)) { //tant qu'il fait pas un mouvement qui enleve l'echec
+					aff.afficher("Coup non valide ! verifier votre roi");
 					p = saisiPieceValide(j);
 					if(p == null) {//si la piece est null il a saisi m
 						this.menuMil();
@@ -231,11 +231,11 @@ public class Partie {
 				this.plateau.bougerPiece(dest, p);//le coup est finalement valide, on bouge la piece
 				this.plateau.promotion(p);
 			}
-			
+
 		}
-		
+
 	}
-	public void tour_jeu() {	
+	public void tour_jeu() {
 		this.jouerCoup(this.getJoueur(this.getTour()%2));
 		new Affichage().afficher(this.getPlateau());
 	}
@@ -249,16 +249,16 @@ public class Partie {
 			this.setTour(this.getTour() + 1);//tour ++;
 		}
 		if(echec_mat(this.getJoueur(this.getTour()%2))) {
-			new Affichage().afficher("Echec et mat, " + this.getJoueur((this.getTour() + 1)%2).getPseudo() + " a gagné !");
+			new Affichage().afficher("Echec et mat, " + this.getJoueur((this.getTour() + 1)%2).getPseudo() + " a gagne !");
 			new Partie();
 		}
 		else {
-			new Affichage().afficher("Egalité ! (pat)");
+			new Affichage().afficher("Egalite ! (pat)");
 		}
 	}
-	
+
 	public void charger() {
-		
+
 		/* Dans le cas ou on charge en cours de partie
 		 * on regenere un plateau pour faire les deplacment sauvgardes correctement
 		 */
@@ -275,22 +275,22 @@ public class Partie {
 		    line = br.readLine();
 		    String pseudo2 = line;
 		    line = br.readLine();
-		    int tour = Integer.parseInt(line);  
+		    int tour = Integer.parseInt(line);
 		    this.setTour(tour);
 		    this.setJoueur(0, new Joueur(pseudo1, 0));
 		    this.setJoueur(1, new Joueur(pseudo2, 1));
 		    line = br.readLine();//on arrive mtn aux coups
-		    
+
 		    int i = 0;
-		    //Simulation d'une partie avec les mouvements sauvegardés
-		    while (line != null) {	
-				/* 
-				 * copier-coller de jouerCoup() sans les vérifications de mouvements valide
-				 * car ils ont été vérifiés dans la partie sauvegardée 
+		    //Simulation d'une partie avec les mouvements sauvegardes
+		    while (line != null) {
+				/*
+				 * copier-coller de jouerCoup() sans les verifications de mouvements valide
+				 * car ils ont ete verifies dans la partie sauvegardee
 				 */
 		    	i = (8 * (line.charAt(1) - 49)) + (line.charAt(0) - 97);
 				Piece p = this.plateau.getPlateau(i);
-				
+
 				line = br.readLine();
 		    	i = (8 * (line.charAt(1) - 49)) + (line.charAt(0) - 97);
 				int dest = i;
@@ -301,20 +301,20 @@ public class Partie {
 		    aff.afficher(this.plateau);
 		    br.close();
 		}
-		
+
 		catch(IOException e) {
 			System.out.println(e);
 		}
 		this.jouer();
 	}
-	
+
 	public void sauvegarder() {
 		Affichage aff = new Affichage();
-		String path=new File("").getAbsolutePath(); 
+		String path=new File("").getAbsolutePath();
 		aff.afficher("Saisir nom du fichier a sauvegarder !");
 		String nom = aff.saisirPseudo();
 		new File(path+"\\" + nom +".txt");
-		
+
 		try{
 		      PrintWriter sortie = new PrintWriter(new BufferedWriter(new FileWriter(nom + ".txt")));
 		      sortie.print(getBackup());//on ecrit les pseudos le tour et tous les coups
@@ -330,7 +330,7 @@ public class Partie {
 		setBackup(getJoueur(0).getPseudo() + "\n" + getJoueur(1).getPseudo() + "\n" + getTour() + "\n" + getPlateau().getBackup());
 		return backup;
 	}
-	public void menuDeb() {//pas besoin de menu de fin c'est le meme que celui de début
+	public void menuDeb() {//pas besoin de menu de fin c'est le meme que celui de debut
 		Affichage aff = new Affichage();
 		String s = "Que voulez-vous faire ?\nj : jouer une nouvelle partie\nc : charger une partie\nq : quitter le jeu";
 		aff.afficher(s);
@@ -353,7 +353,7 @@ public class Partie {
 			this.charger();
 		}
 		else{
-			aff.afficher("merci d'avoir jouer, à la prochaine !");
+			aff.afficher("merci d'avoir jouer, e la prochaine !");
 			System.exit(0);
 		}
 	}
@@ -385,11 +385,11 @@ public class Partie {
 		}
 		else if(rep.equals("s")) {
 			this.sauvegarder();
-			aff.afficher("Sauvegarde réussie, retour a la partie en cours");
+			aff.afficher("Sauvegarde reussie, retour a la partie en cours");
 			this.jouer();
 		}
 		else{
-			aff.afficher("merci d'avoir jouer, à la prochaine !");
+			aff.afficher("merci d'avoir jouer, e la prochaine !");
 			System.exit(0);
 		}
 	}
