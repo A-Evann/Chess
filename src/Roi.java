@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 public class Roi extends Piece {
 
-	
+
     public Roi() {
-        super(); 
+        super();
     }
     public Roi(int colonne, int ligne, int couleur) {
         super(colonne, ligne, couleur);
     }
-    
-    
+
+
     public boolean mouvementValide(int colonne, int ligne) {
     	int dist_co = this.getColonne() - colonne; // distance en colonne
     	int dist_li = this.getLigne() - ligne;	  // distance en ligne
@@ -41,16 +41,18 @@ public class Roi extends Piece {
     public ArrayList<Integer> portee(){
     	//ici on reprend la methode de la reine en changeant les while par des if
     	ArrayList<Integer> les_cases = new ArrayList<Integer>();
-    	
+
     	int[] colonne = {0,1,1,1,0,-1,-1,-1};
     	int[] ligne = {-1,-1,0,1,1,1,0,-1};
-    	
-    	for (int i = 0; i < colonne.length; i++) {
-    		if((colonne[i] < 8 && ligne[i] < 8) && (colonne[i] >= 0 && ligne[i] >= 0)){
-        		les_cases.add((8 * ligne[i]) + colonne[i]);
+
+    	for (int i = 0; i < 8; i++) {
+				int col = this.getColonne() + colonne[i];
+				int lig = this.getLigne() + ligne[i];
+    		if (col < 8 && lig < 8 && col >= 0 && lig >= 0){
+        		les_cases.add(8 * lig + col);
     		}
     	}
-    	
+
     	return les_cases;
     }
     public ArrayList<Integer> porteeMvt() {

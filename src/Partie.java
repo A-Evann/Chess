@@ -115,7 +115,7 @@ public class Partie {
 		return false;
 	}
 	public boolean echec(Joueur j) {
-		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire());
+		return this.getPlateau().isAPortee(this.getPlateau().getIndice_roi(j.getCouleur()), j.getAversaire()); //si le roi d'une couleur est a portee de l'adversaire
 	}
 
     public boolean pat(Joueur j) {//si pat est vrai c'est qu'on est en situation de pat
@@ -164,7 +164,7 @@ public class Partie {
     	int i = 0;
     	while (i < cases_mvt_roi.size() && !this.sansEchec(cases_mvt_roi.get(i), this.getPlateau().getPlateau(this.getPlateau().getIndice_roi(j.getCouleur())), j) ) {
     		/*
-    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
+    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice ou on bouge sans echec
     		 */
     		i++;
     	}
@@ -184,7 +184,7 @@ public class Partie {
     				i = 0;
     				while (i < cases_piece.size() && !this.sansEchec(cases_piece.get(i), this.getPlateau().getPlateau(k), j) ) {
     		    		/*
-    		    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice oe on bouge sans echec
+    		    		 * on fait des tour de boucle tant que on a pas depasse la taille de la liste et que un coup ne donne pas d'indice ou on bouge sans echec
     		    		 */
     		    		i++;
     		    	}
